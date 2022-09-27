@@ -1,6 +1,9 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
 from memberapp.models import HelloWorld
 
@@ -21,3 +24,11 @@ def hello_world(request):
     else:
         hello_world_list = HelloWorld.objects.all()
         return render(request, 'memberapp/hello_world.html', context={'hello_world_list': hello_world_list })
+
+
+
+class MemberCreateView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    success_url = reverse_lazy('memberapp:hello_world')
+    template_name = 'memberapp/create.html'
