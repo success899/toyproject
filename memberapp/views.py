@@ -41,12 +41,13 @@ class MemberDetailView(DetailView):
 
 class MemberUpdateView(UpdateView):
     model = User
+    context_object_name = 'target_user'
     form_class = MemberUpdateForm
     success_url = reverse_lazy('memberapp:hello_world')
     template_name = 'memberapp/update.html'
 
 class MemberDeleteView(DeleteView):
     model = User
+    context_object_name = 'target_user'
     success_url = reverse_lazy('memberapp:login')
-    template_name = 'memberapp/delete.html' \
-                    ''
+    template_name = 'memberapp/delete.html'
