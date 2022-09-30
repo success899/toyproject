@@ -1,34 +1,36 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
+from memberapp.decorators import owner_verification
 from memberapp.forms import MemberUpdateForm
 from memberapp.models import HelloWorld
 
+verification = [ login_required(login_url='/members/login'), owner_verification ]
 
 # Create your views here.
 
+@login_required(login_url='/members/login')
 def hello_world(request):
 
-    if request.user.is_authenticated:
-        if request.method == "POST":
+    if request.method == "POST":
 
-            temp = request.POST.get('test_input')
+        temp = request.POST.get('test_input')
 
-            new_hello_world = HelloWorld()
-            new_hello_world.text = temp
-            new_hello_world.save()
+        new_hello_world = HelloWorld()
+        new_hello_world.text = temp
+        new_hello_world.save()
 
-            return HttpResponseRedirect(reverse('memberapp:hello_world'))
-        else:
-            hello_world_list = HelloWorld.objects.all()
-            return render(request, 'memberapp/hello_world.html', context={'hello_world_list': hello_world_list })
-
+        return HttpResponseRedirect(reverse('memberapp:hello_world'))
     else:
-        return HttpResponseRedirect(reverse('memberapp:login'))
+        hello_world_list = HelloWorld.objects.all()
+        return render(request, 'memberapp/hello_world.html', context={'hello_world_list': hello_world_list })
+
 
 
 class MemberCreateView(CreateView):
@@ -42,6 +44,8 @@ class MemberDetailView(DetailView):
     context_object_name = 'target_user'
     template_name = 'memberapp/detail.html'
 
+@method_decorator(verification, 'get')
+@method_decorator(verification, 'post')
 class MemberUpdateView(UpdateView):
     model = User
     context_object_name = 'target_user'
@@ -49,32 +53,11 @@ class MemberUpdateView(UpdateView):
     success_url = reverse_lazy('memberapp:hello_world')
     template_name = 'memberapp/update.html'
 
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
 
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().post(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
+@method_decorator(verification, 'get')
+@method_decorator(verification, 'post')
 class MemberDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('memberapp:login')
     template_name = 'memberapp/delete.html'
-
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().post(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
