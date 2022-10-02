@@ -1,11 +1,12 @@
-from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 
+from profileapp.models import Profile
 
-def member_owner_verification(func):
+
+def profile_owner_verification(func):
     def decorated(request, *args, **kwargs):
-        user = User.objects.get(pk=kwargs['pk'])
-        if not user == request.user:
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        if not profile.user == request.user:
             return HttpResponseForbidden()
         return func(request, *args, **kwargs)
 

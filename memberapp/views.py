@@ -7,11 +7,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
-from memberapp.decorators import owner_verification
+from memberapp.decorators import member_owner_verification
 from memberapp.forms import MemberUpdateForm
 from memberapp.models import HelloWorld
 
-verification = [ login_required(login_url='/members/login'), owner_verification ]
+verification = [ login_required(login_url='/members/login'), member_owner_verification ]
 
 # Create your views here.
 
