@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 
 from articleapp.models import Article
 from commentapp.forms import CommentCreationForm
@@ -10,7 +10,7 @@ from commentapp.models import Comment
 # Create your views here.
 
 
-class CommentCreateView(CreateView,):
+class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentCreationForm
     template_name = 'commentapp/create.html'
@@ -21,6 +21,15 @@ class CommentCreateView(CreateView,):
         temp_comment.writer = self.request.user
         temp_comment.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('articleapp:detail', kwargs={'pk': self.object.article.pk})
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    template_name = 'commentapp/delete.html'
+    context_object_name = 'target_comment'
 
     def get_success_url(self):
         return reverse('articleapp:detail', kwargs={'pk': self.object.article.pk})
