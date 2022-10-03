@@ -40,13 +40,14 @@
 
 
       {% if target_user == user %}
-      <a class="material-icons" style="box-shadow: 0 0 3px #ccc; border-radius: 10rem; padding: .1rem"
-         href="{% url 'memberapp:update' pk=user.pk %}">
-          settings
+      <a href="{% url 'memberapp:update' pk=user.pk %}">
+        <span style="font-size: .7rem;">Change Info</span>
+        <span class="material-icons" style="box-shadow: 0 0 3px #ccc; border-radius: 10rem; padding: .1rem">settings</span>
       </a>
-      <a class="material-icons" style="box-shadow: 0 0 3px red; border-radius: 10rem; padding: .1rem;"
-         href="{% url 'memberapp:delete' pk=user.pk %}">
-          cancel
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="{% url 'memberapp:delete' pk=user.pk %}">
+        <span style="font-size: .7rem;">leave</span>
+        <span class="material-icons" style="box-shadow: 0 0 3px red; border-radius: 10rem; padding: .1rem;">cancel</span>
       </a>
       {% endif %}
 
