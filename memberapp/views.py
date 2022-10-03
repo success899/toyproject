@@ -6,7 +6,9 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
+from articleapp.models import Article
 from memberapp.decorators import member_owner_verification
 from memberapp.forms import MemberUpdateForm
 from memberapp.models import HelloWorld
@@ -39,10 +41,16 @@ class MemberCreateView(CreateView):
     success_url = reverse_lazy('memberapp:hello_world')
     template_name = 'memberapp/create.html'
 
-class MemberDetailView(DetailView):
+class MemberDetailView(DetailView, MultipleObjectMixin):
     model = User
     context_object_name = 'target_user'
     template_name = 'memberapp/detail.html'
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(writer=self.get_object())
+        return super(MemberDetailView, self).get_context_data(object_list=object_list, **kwargs)
 
 @method_decorator(verification, 'get')
 @method_decorator(verification, 'post')
