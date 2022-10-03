@@ -1,27 +1,27 @@
 
-
 <div class="TOY_header">
     <div>
         <h1 class="TOY_logo">TOY Project</h1>
     </div>
-    <div>
-        <a href="{% url 'articleapp:list' %}">
+    <div class="header_menu_var">
+        <a href="{% url 'articleapp:list' %}" class="header_menu">
             <span>Articles</span>
         </a>
-        <span>nav2</span>
-        <span>nav3</span>
+        <a href="{% url 'projectapp:list' %}" class="header_menu">
+            <span>Projects</span>
+        </a>
         {% if not user.is_authenticated %}
-        <a href="{% url 'memberapp:login' %}?next={{ request.path }}">
+        <a href="{% url 'memberapp:login' %}?next={{ request.path }}" class="header_menu">
             <span>login</span>
         </a>
-        <a href="{% url 'memberapp:create' %}">
+        <a href="{% url 'memberapp:create' %}" class="header_menu">
             <span>SignUp</span>
         </a>
         {% else %}
-        <a href="{% url 'memberapp:detail' pk=user.pk %}">
+        <a href="{% url 'memberapp:detail' pk=user.pk %}" class="header_menu">
             <span>MyPage</span>
         </a>
-        <a href="{% url 'memberapp:logout' %}?next={{ request.path }}">
+        <a href="{% url 'memberapp:logout' %}?next={{ request.path }}" class="header_menu">
             <span>logout</span>
         </a>
         {% endif %}

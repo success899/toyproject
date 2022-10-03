@@ -16,8 +16,26 @@
     margin: 2rem 0;
 }
 
+
 @media screen and (max-width:500px) {
     html {
         font-size: 13px;
     }
+}
+
+a{
+    color: #000000;
+    text-decoration: none;
+}
+a:hover{
+    color: #000000;
+    text-decoration: none;
+}
+
+.header_menu{
+    margin: 0 0.8rem;
+}
+
+.header_menu_var{
+    margin: 1rem 0;
 }

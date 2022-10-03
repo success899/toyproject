@@ -8,7 +8,8 @@
 
 
       {% if target_user.profile %}
-        <img src="{{ target_user.profile.image.url }}" alt="" style="height: 12rem; width 12rem; border-radius: 5rem; margin-bottom: 1.5rem; ">
+        <img src="{{ target_user.profile.image.url }}" alt=""
+             style="height: 12rem; width: 12rem; border-radius: 5rem; margin-bottom: 1.5rem; object-fit: cover; ">
 
         <h2 style="font-family: 'NanumSquareB'; ">
           {{ target_user.profile.nickname }}
