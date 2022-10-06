@@ -36,6 +36,15 @@
                     <div>
                         {% include 'snippets/card.html' with article=article %}
                     </div>
+                    <div style="text-align: center; margin-top: .1rem; ">
+                        <i style="vertical-align: middle; font-size: 1.1rem; color: #f88; " class="material-icons">
+                            favorite
+                        </i>
+                        &nbsp&nbsp
+                        <span style="vertical-align: middle; font-size: 1.1rem; ">
+                          {{ article.like }}
+                        </span>
+                    </div>
                 </a>
             {% endfor %}
         </div>

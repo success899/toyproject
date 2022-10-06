@@ -7,7 +7,16 @@
       <h1>
         {{ target_article.title }}
       </h1>
-
+      <div style="height: 2rem; ">
+        <a href="{% url 'likeapp:article_like' pk=target_article.pk %}">
+          <i style="vertical-align: middle; font-size: 1.1rem; color: #f88; " class="material-icons">
+            favorite
+          </i>
+        </a>
+        <span style="vertical-align: middle; font-size: 1.1rem; ">
+          {{ target_article.like }}
+        </span>
+      </div>
       <h4>
         {{ target_article.writer.profile.nickname }}
       </h4>
